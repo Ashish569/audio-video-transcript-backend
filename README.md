@@ -42,14 +42,18 @@ A full-stack application that allows users to upload audio/video files, transcri
 
 ### Install OpenAI whisper and ffmpeg -- Below is for mac
 
+```bash
 brew install ffmpeg
 pip install --upgrade pip
 pip install openai-whisper
+```
 
 ## Install Postgres sql
 
+```bash
 brew install postgresql
 psql --version
+```
 
 ### Steps
 
@@ -73,3 +77,19 @@ psql -f sqlMigration.sql
    ```bash
    npm start
    ```
+
+Arhcitecture Diagram
+
+graph TD
+A[Frontend - React + Vite] -->|HTTP POST /api/upload| B[Express Backend]
+B -->|Streaming| C[Uploads Service/temp disk]
+C -->|Save metadata| D[PostgreSQL]
+C -->|Background trigger| E[Processing Service]
+E -->|extract audio| F[ffmpeg]
+F -->|WAV file| G[openai-whisper]
+G -->|JSON segments| E
+E -->|Save segments + metadata| D
+A -->|GET /api/files| D
+A -->|GET /api/transcription/:id| D
+D -->|Return data| A
+A -->|Modal player + transcript sync| User
