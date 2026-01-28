@@ -59,10 +59,17 @@ psql --version
    npm install
    ```
 
-### Database
+### Create the PostgreSQL database:
 
+```bash
 createdb transcription_db
 
-### Run
+# Run projectDir/sqlMigration.sql
+psql -f sqlMigration.sql
 
-npm run dev
+```
+
+2. **Start the server**
+   ```bash
+   npm start
+   ```
