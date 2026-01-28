@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 const http = require("http");
 const app = require("./src/app");
 
@@ -8,7 +9,10 @@ const server = http.createServer(app);
 server.listen(PORT, () => {
   console.log(`Listening on port - http://localhost:${PORT}`);
 });
-
+server.setTimeout(0); // overall request timeout
+server.headersTimeout = 0; // headers timeout
+server.requestTimeout = 0; // Node v18+
+server.keepAliveTimeout = 0; // keep connection alive
 const gracefulShutdown = (signal) => {
   console.log(`${signal} received. Shutting down gracefully...`);
 
@@ -17,7 +21,7 @@ const gracefulShutdown = (signal) => {
     process.exit(0);
   });
 
-  // Force exit after 10 seconds 
+  // Force exit after 10 seconds
   setTimeout(() => {
     console.error("Could not close connections in time — forcing shutdown");
     process.exit(1);
