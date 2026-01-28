@@ -45,7 +45,6 @@ async function handleFileUpload(req, res) {
         return;
       }
 
-      // ✅ File detected
       fileReceived = true;
 
       originalName = info.filename || "unnamed_file";
@@ -82,7 +81,6 @@ async function handleFileUpload(req, res) {
       });
 
       writeStream.on("finish", async () => {
-        // 🔁 Async side-effects ONLY
         let durationSec = null;
         try {
           durationSec = await getDuration(filePath);
