@@ -78,8 +78,9 @@ psql -f sqlMigration.sql
    npm start
    ```
 
-Arhcitecture Diagram
+## Architecture Diagram
 
+```mermaid
 graph TD
 A[Frontend - React + Vite] -->|HTTP POST /api/upload| B[Express Backend]
 B -->|Streaming| C[Uploads Service/temp disk]
@@ -93,3 +94,4 @@ A -->|GET /api/files| D
 A -->|GET /api/transcription/:id| D
 D -->|Return data| A
 A -->|Modal player + transcript sync| User
+```
